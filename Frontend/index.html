@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="filterProject" placeholder="Filtrer par projet">
+
+    <table border="1px">
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> Project </th>
+                <th> Priority </th>
+                <th> Block reason </th>
+            </tr>
+        </thead>
+
+        <tbody id="taskBody">
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
+
+<script type="module">
+    // Donnée
+    const data = [
+        {
+            "name": "Configurer le serveur",
+            "project": "Implémentation Client A",
+            "priority": 1,
+            "block_reason": "En attente des accès"
+        },
+        {
+            "name": "Rédiger la documentation",
+            "project": "Projet interne",
+            "priority": 3,
+            "block_reason": "Manque d'informations"
+        },
+        {
+            "name": "Mettre à jour le schéma de données",
+            "project": "Implémentation Client B",
+            "priority": 2,
+            "block_reason": "Décision métier en attente"
+        }
+    ]
+
+    const taskBody = document.getElementById("taskBody"); 
+    const filterInput = document.getElementById('filterProject');
+
+    // Fonction permetant l'affichage du tableau
+    function renderTable(taskToPrint) {
+        taskBody.innerHTML = "";
+
+        taskToPrint.forEach(t => {
+            const row = taskBody.insertRow();
+            row.insertCell().textContent = t.name;
+            row.insertCell().textContent = t.project;
+            row.insertCell().textContent = t.priority;
+            row.insertCell().textContent = t.block_reason;
+        });
+    }
+
+    // ---- main ----
+    renderTable(data);
+
+    filterInput.addEventListener('input', function() {
+        const search = this.value.toLowerCase();
+        const filtered = data.filter(d => d.project.toLowerCase().includes(search));
+        renderTable(filtered);
+    });
+</script>
